@@ -1,0 +1,40 @@
+version: '3'
+services:
+    es:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+        ports:
+            - 9200:9200
+            - 9300:9300
+        environment:
+            - discovery.type=single-node
+
+    kibana:
+        image: docker.elastic.co/kibana/kibana:7.10.0
+        ports:
+            - 5601:5601
+        links:
+            - es:elasticsearch
+
+    api-one:
+        image: api-one
+        ports:
+            - 32000:80
+            - 32001:443
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=https://+:443;http://+:80
+        volumes:
+            - C:\Users\dzmitry\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+            - C:\Users\dzmitry\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+
+    api-two:
+        image: api-two
+        ports:
+            - 33000:80
+            - 33001:443
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=https://+:443;http://+:80
+        volumes:
+            - C:\Users\dzmitry\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+            - C:\Users\dzmitry\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
