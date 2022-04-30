@@ -36,7 +36,7 @@ namespace Logging.Common
             if (response.Content != null)
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
-                _logger.LogInformation("Got response code: {code}, payload: {}", response.StatusCode, responseContent);
+                _logger.LogInformation("Got response code: {code}, payload: {payload}", response.StatusCode, responseContent);
             }
 
             return response;
